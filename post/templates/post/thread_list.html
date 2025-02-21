@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Threads</h2>
+<button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createThreadModal">
+    Create New Thread
+</button>
+
+<div class="list-group">
+    {% for thread in threads %}
+    <a href="{% url 'thread-detail' thread.pk %}" class="list-group-item list-group-item-action">
+        <h5>{{ thread.name }}</h5>
+        <p>{{ thread.description }}</p>
+    </a>
+    {% endfor %}
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="createThreadModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create New Thread</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" action="{% url 'thread-create' %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    {{ form.as_p }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

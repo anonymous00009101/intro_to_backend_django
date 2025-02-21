@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if form.instance.pk %}Edit Thread{% else %}Create Thread{% endif %}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>{% if form.instance.pk %}Edit Thread{% else %}Create Thread{% endif %}</h2>
+    
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="{{ form.name.id_for_label }}" class="form-label">Name</label>
+            <input type="text" name="{{ form.name.name }}" 
+                   class="form-control {% if form.name.errors %}is-invalid{% endif %}"
+                   id="{{ form.name.id_for_label }}"
+                   value="{{ form.name.value|default:'' }}">
+            {% if form.name.errors %}
+            <div class="invalid-feedback">
+                {{ form.name.errors }}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="mb-3">
+            <label for="{{ form.description.id_for_label }}" class="form-label">Description</label>
+            <textarea name="{{ form.description.name }}" 
+                      class="form-control {% if form.description.errors %}is-invalid{% endif %}"
+                      id="{{ form.description.id_for_label }}"
+                      rows="3">{{ form.description.value|default:'' }}</textarea>
+            {% if form.description.errors %}
+            <div class="invalid-feedback">
+                {{ form.description.errors }}
+            </div>
+            {% endif %}
+        </div>
+        
+        <button type="submit" class="btn btn-primary">
+            {% if form.instance.pk %}Update{% else %}Create{% endif %}
+        </button>
+        <a href="{% url 'threads' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}
