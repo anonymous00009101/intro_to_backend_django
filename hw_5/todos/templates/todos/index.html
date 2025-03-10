@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'todos/styles.css' %}">
+    <title>Todo List</title>
+</head>
+<body>
+    <div class="container">
+        <h1>My Todo List</h1>
+        <ul>
+            {% for todo in todos %}
+                <li>
+                    <strong>{{ todo.title }}</strong> - {{ todo.description }} 
+                    <em>Due: {{ todo.due_date }}</em>
+                    {% if todo.status %}
+                        <span class="status">Completed</span>
+                    {% else %}
+                        <span class="status">Pending</span>
+                    {% endif %}
+                </li>
+            {% empty %}
+                <li>No todos available.</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'todos:create' %}">Add a new Todo</a>
+    </div>
+</body>
+</html>
